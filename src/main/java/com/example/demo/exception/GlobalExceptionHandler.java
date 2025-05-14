@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.example.demo.dto.ResponseDTO;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.nio.file.AccessDeniedException;
 
@@ -51,6 +52,36 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ResponseDTO<Object>> handleUserNotFoundException(UserNotFoundException ex) {
+        return new ResponseEntity<>(
+                ResponseDTO.error(ex.getMessage()),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public class RatingNotFoundException extends RuntimeException {
+        public RatingNotFoundException(Long id) {
+            super("Rating not found with id: " + id);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public class UnauthorizedRatingActionException extends RuntimeException {
+        public UnauthorizedRatingActionException() {
+            super("You are not authorized to modify this rating");
+        }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public class DuplicateRatingException extends RuntimeException {
+        public DuplicateRatingException() {
+            super("You have already rated this product. Please update your existing rating.");
+        }
+    }
+
+    @ExceptionHandler(ReviewNotFoundException.class)
+    public ResponseEntity<ResponseDTO<Object>> handleReviewNotFoundException(ReviewNotFoundException ex) {
         return new ResponseEntity<>(
                 ResponseDTO.error(ex.getMessage()),
                 HttpStatus.NOT_FOUND

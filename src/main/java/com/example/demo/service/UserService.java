@@ -43,6 +43,7 @@ public class UserService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
         return UserResponse.builder()
+                .id(user.getId()) // Thêm ID vào response
                 .isActive((user.getIsActive() == null || user.getIsActive() == 0) ? 0 : 1)
                 .fullName(user.getFullName())
                 .email(user.getEmail())
@@ -171,6 +172,7 @@ public class UserService {
 
     private UserResponse buildUserResponse(UserEntity user) {
         return UserResponse.builder()
+                .id(user.getId()) // Thêm ID vào response
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .password(user.getPassword())

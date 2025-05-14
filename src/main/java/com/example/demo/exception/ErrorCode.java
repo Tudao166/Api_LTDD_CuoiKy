@@ -27,6 +27,11 @@ public enum ErrorCode {
 
     USER_ALREADY_ACTIVE(1005, "User already active account", HttpStatus.BAD_REQUEST),
     INVALID_EXPIRED_TOKEN(1005, "Token is invalid.", HttpStatus.BAD_REQUEST),
+    REVIEW_NOT_FOUND(404, "Review not found",HttpStatus.BAD_REQUEST),
+    REVIEW_ALREADY_EXISTS(409, "User has already reviewed this product",HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND(404, "Product not found",HttpStatus.BAD_REQUEST),
+    VALIDATION_ERROR(400, "Validation error",HttpStatus.BAD_REQUEST);
+
     ;
 
     ErrorCode(int code, String message, HttpStatusCode httpStatusCode) {
